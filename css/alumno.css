@@ -1,0 +1,30 @@
+/* Estilos propios para el CRUD de alumnos */
+body {
+    background-color: #f8fafc;
+}
+
+h1 i {
+    color: #0275d8;
+}
+
+#form_alumno {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    padding: 30px 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.btn i {
+    margin-right: 5px;
+}
+
+#tabla_alumno {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0000000d;
+}

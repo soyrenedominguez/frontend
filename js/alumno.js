@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function obtener_alumnos() {
-    const res = await fetch('../backend/php/alumno_api.php');
+    const res = await fetch('http://soyrenedominguez.atwebpages.com/alumno_api.php');
     const alumnos = await res.json();
     const cuerpo = document.getElementById('lista_alumnos');
     cuerpo.innerHTML = '';
@@ -56,18 +56,12 @@ async function guardar_alumno(e) {
         telefono: document.getElementById('telefono').value.trim()
     };
     if (!validar_formulario(datos)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Campos incompletos',
-            text: 'Por favor complete todos los campos correctamente.',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Aceptar'
-        });
+        alert('Por favor complete todos los campos correctamente.');
         return;
     }
     let res;
     if (datos.idalumno) {
-        res = await fetch(`../backend/php/alumno_api.php?idalumno=${datos.idalumno}`, {
+        res = await fetch(`http://soyrenedominguez.atwebpages.com/alumno_api.php?idalumno=${datos.idalumno}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(datos)
@@ -82,21 +76,8 @@ async function guardar_alumno(e) {
     if (res.ok) {
         await obtener_alumnos();
         limpiar_formulario();
-        Swal.fire({
-            icon: 'success',
-            title: 'Guardado',
-            text: 'El alumno fue guardado correctamente.',
-            showConfirmButton: false,
-            timer: 1300
-        });
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Error al guardar alumno',
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'OK'
-        });
+        alert('Error al guardar alumno');
     }
 }
 
@@ -114,40 +95,17 @@ window.editar_alumno = function (alumno) {
 }
 
 window.eliminar_alumno = async function (idalumno) {
-    Swal.fire({
-        title: '¿Seguro que deseas eliminar este alumno?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Eliminar',
-        cancelButtonText: 'Cancelar'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            const res = await fetch(`../backend/php/alumno_api.php?idalumno=${idalumno}`, {
-                method: 'DELETE'
-            });
-            if (res.ok) {
-                await obtener_alumnos();
-                limpiar_formulario();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Eliminado',
-                    text: 'El alumno fue eliminado correctamente.',
-                    showConfirmButton: false,
-                    timer: 1300
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al eliminar alumno',
-                    confirmButtonColor: '#d33',
-                    confirmButtonText: 'OK'
-                });
-            }
+    if (confirm('¿Seguro que deseas eliminar este alumno?')) {
+        const res = await fetch(`http://soyrenedominguez.atwebpages.com/alumno_api.php?idalumno=${idalumno}`, {
+            method: 'DELETE'
+        });
+        if (res.ok) {
+            await obtener_alumnos();
+            limpiar_formulario();
+        } else {
+            alert('Error al eliminar alumno');
         }
-    });
+    }
 }
 
 function limpiar_formulario() {
